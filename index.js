@@ -48,6 +48,7 @@ const createPosts = users => {
 
 const createComments = (posts, users) => {
   const comments = [];
+  const now = new Date();
   for (let c=0; c<COMMENTS_COUNT; c++) {
     const postId = Math.round(Math.random() * (POSTS_COUNT - 1));
     const { createdAt: postCreatedAt } = posts[postId];
@@ -57,7 +58,7 @@ const createComments = (posts, users) => {
       name: capitalizeFirstLetter(faker.lorem.words()),
       author: users[Math.round(Math.random() * (USERS_COUNT - 1))],
       body: faker.lorem.sentences(),
-      createdAt: faker.date.future(null, postCreatedAt)
+      createdAt: faker.date.between(postCreatedAt, now)
     });
   }
   console.log(JSON.stringify(comments));
