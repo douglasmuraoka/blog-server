@@ -38,22 +38,26 @@ const createPosts = users => {
       id: p,
       author: users[Math.round(Math.random() * (USERS_COUNT - 1))],
       title: faker.lorem.sentence(),
-      body: faker.lorem.paragraphs()
+      body: faker.lorem.paragraphs(),
+      createdAt: faker.date.past()
     });
   }
   // console.log(JSON.stringify(posts));
   return posts;
 };
 
-const createComments = users => {
+const createComments = (posts, users) => {
   const comments = [];
   for (let c=0; c<COMMENTS_COUNT; c++) {
+    const postId = Math.round(Math.random() * (POSTS_COUNT - 1));
+    const { createdAt: postCreatedAt } = posts[postId];
     comments.push({
       id: c,
       postId: Math.round(Math.random() * (POSTS_COUNT - 1)),
       name: capitalizeFirstLetter(faker.lorem.words()),
       author: users[Math.round(Math.random() * (USERS_COUNT - 1))],
-      body: faker.lorem.sentences()
+      body: faker.lorem.sentences(),
+      createdAt: faker.date.future(null, postCreatedAt)
     });
   }
   console.log(JSON.stringify(comments));
@@ -68,7 +72,7 @@ const initDb = async () => {
 
   const users = await createUsers();
   const posts = createPosts(users);
-  const comments = createComments(users);
+  const comments = createComments(posts, users);
 
   const db = {
     users,
