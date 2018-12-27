@@ -39,7 +39,8 @@ const createPosts = users => {
       author: users[Math.round(Math.random() * (USERS_COUNT - 1))],
       title: faker.lorem.sentence(),
       body: faker.lorem.paragraphs(),
-      createdAt: faker.date.past()
+      createdAt: faker.date.past(),
+      imageUrl: `https://s3.eu-central-1.amazonaws.com/douglasmuraoka-blog-react-redux/images/${Math.round(Math.random() * 9) + 1}.jpg`
     });
   }
   // console.log(JSON.stringify(posts));
